@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+	import { resolve } from '$app/paths';
 
   interface Intersection {
     intersection: string;
@@ -17,12 +18,13 @@
   let L: any;
   let showAutocomplete = $state<boolean>(false);
   let debounceTimer: ReturnType<typeof setTimeout>;
+  const intersectionsFilePath: string = resolve('/chicago-intersections.json')
 
   // Fetch data on mount
   onMount(async () => {
     await initMap();
     try {
-      const response = await fetch('/chicago-intersections.json');
+      const response = await fetch(intersectionsFilePath);
       intersections = await response.json();
       dataLoaded = true;
     } catch (error) {
